@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Link Exporters by Ali Hosen | Ali Hosen Official</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .output-box {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap; /* Preserve line breaks */
+            margin-top: 10px;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .section-output {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap; /* Preserve line breaks */
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="urlInput" class="input-box" placeholder="Enter URL">
+        <button onclick="extractId()" class="button">Extract ID</button>
+        <div class="output-box" id="outputBox"></div>
+        <button onclick="copyToClipboard()" class="copy-button">Copy Link</button>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Custom URL Section</div>
+        <input type="text" id="customNumberInput" class="section-input" placeholder="Enter a number">
+        <button onclick="generateCustomUrl()" class="button">Generate URL</button>
+        <div class="section-output" id="customUrlOutput"></div>
+        <button onclick="runCustomUrl()" class="button">Go</button>
+    </div>
+
+    <script>
+        function extractId() {
+            var url = document.getElementById('urlInput').value;
+            var idIndex = url.indexOf('id=');
+            if (idIndex !== -1) {
+                var id = url.substring(idIndex + 3);
+                document.getElementById('outputBox').textContent = id;
+            } else {
+                var domainIndex = url.indexOf('.com/');
+                if (domainIndex !== -1) {
+                    var afterDomain = url.substring(domainIndex + 5);
+                    document.getElementById('outputBox').textContent = afterDomain;
+                } else {
+                    document.getElementById('outputBox').textContent = 'No ID found or additional text after domain';
+                }
+            }
+        }
+
+        function copyToClipboard() {
+            var outputBox = document.getElementById('outputBox');
+            var textArea = document.createElement('textarea');
+            textArea.value = outputBox.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Copied to clipboard!');
+        }
+
+        function generateCustomUrl() {
+            var input = document.getElementById('customNumberInput').value;
+            var url;
+            
+            // Check if input is a number or text
+            if (!isNaN(input)) {
+                url = 'https://www.facebook.com/profile.php?id=' + input;
+            } else {
+                url = 'https://www.facebook.com/' + input;
+            }
+        
+            document.getElementById('customUrlOutput').textContent = url;
+        }
+
+        function runCustomUrl() {
+            var generatedUrl = document.getElementById('customUrlOutput').textContent;
+            window.open(generatedUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
